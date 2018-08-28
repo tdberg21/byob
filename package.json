@@ -1,0 +1,24 @@
+{
+  "name": "byob",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdberg21/byob.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tdberg21/byob/issues"
+  },
+  "homepage": "https://github.com/tdberg21/byob#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
