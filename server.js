@@ -28,7 +28,7 @@ app.set('secretKey', process.env.SECRET);
 
 app.get('/', (request, response) => {
   const token = jwt.sign({})
-};
+});
 
 app.locals.title = 'BYOB Bitches';
 
@@ -71,7 +71,7 @@ app.get('/api/v1/groups/:id', (request, response) => {
 app.get('/api/v1/breed/:id', (request, response) => {
   const { id } = request.params;
 
-  database('breed').where('id', id).select()
+  database('dog_breeds').where('id', id).select()
     .then(breed => {
       if(breed) {
         response.status(200).json({ breed })
@@ -165,6 +165,18 @@ app.delete('/api/v1/breed/:id', (request, response) => {
       response.status(500).json({ error })
     })
 });
+
+// app.patch('/api/v1/breeds/:id', (request, response) => {
+//   const breedUpdate = request.body;
+//   const { id } = request.params;
+//   const breed = database('dog_breeds').where('id', id).select()
+
+//   if (!index) { return response.status(404); }
+
+//   database('dog_breeds').where('id', id).select() = Object.assign(originalTrain, train);
+
+//   return response.status(200).json(app.locals.trains);
+// });
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}`)
