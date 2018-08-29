@@ -33,13 +33,10 @@ const createBreed = (knex, breed) => {
   return knex('dog_breeds').insert(breed);
 };
 
-
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
   return knex('dog_breeds').del()
     .then(() => knex('breed_groups').del())
     .then(() => {
-      // Inserts seed entries
       let groupPromises = [];
 
       groupData.forEach(group => {
