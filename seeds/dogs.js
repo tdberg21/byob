@@ -3,14 +3,15 @@ const { breedData, groupData} = require('../dog-data.js')
 const createGroup = (knex, group) => {
   return knex('breed_groups').insert({
     group_name: group.name,
-    description: group.description,
+    description: group.Description,
+    breed_description: group.breed_description,
     breed_count: group.breedCount
   }, 'id')
     .then(groupId => {
       let breedPromises = [];
 
       breedData.forEach(breed => {
-        if (breed.group_id === group.id) {
+        // if (breed.group_id === group.id) {
             breedPromises.push(
               createBreed(knex, {
                 breed_name: breed.name,
@@ -19,17 +20,18 @@ const createGroup = (knex, group) => {
                 temperament: breed.temperament,
                 weight: breed.weight,
                 height: breed.height,
-                lovable: true,
+                // lovable: true,
                 group_id: groupId[0]
               })
             )
-        }
+        // }
       });
       return Promise.all(breedPromises);
     })
 };
 
 const createBreed = (knex, breed) => {
+  console.log('seed the dogs plz')
   return knex('dog_breeds').insert(breed);
 };
 
