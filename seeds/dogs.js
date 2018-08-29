@@ -1,4 +1,4 @@
-const { breedData, groupData} = require('../dog-data.js')
+const { breedData, groupData } = require('../dog-data.js')
 
 const createGroup = (knex, group) => {
   return knex('breed_groups').insert({
@@ -11,7 +11,6 @@ const createGroup = (knex, group) => {
       let breedPromises = [];
 
       breedData.forEach(breed => {
-        // if (breed.group_id === group.id) {
             breedPromises.push(
               createBreed(knex, {
                 breed_name: breed.name,
@@ -20,7 +19,6 @@ const createGroup = (knex, group) => {
                 temperament: breed.temperament,
                 weight: breed.weight,
                 height: breed.height,
-                // lovable: true,
                 group_id: groupId[0]
               })
             )
