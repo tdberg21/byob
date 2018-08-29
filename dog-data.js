@@ -1,10 +1,10 @@
-[
+const breedData = [
   {
     "id": 1,
     "name": "Affenpinscher",
     "life_span": "10 - 12 years",
     "bred_for": "Small rodent hunting, lapdog",
-    "breed_group": "Toy",
+    "group_id": "4",
     "temperament": "Stubborn, Curious, Playful, Adventurous, Active, Fun-loving",
     "weight": {
       "imperial": "6 - 13 lbs",
@@ -20,7 +20,7 @@
     "name": "Afghan Hound",
     "life_span": "10 - 13 years",
     "bred_for": "Coursing and hunting",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Aloof, Clownish, Dignified, Independent, Happy",
     "weight": {
       "imperial": "50 - 60 lbs",
@@ -36,6 +36,7 @@
     "name": "African Hunting Dog",
     "life_span": "11 years",
     "bred_for": "A wild pack animal",
+    "group_id": "3",
     "temperament": "Wild, Hardworking, Dutiful",
     "weight": {
       "imperial": "44 - 66 lbs",
@@ -51,7 +52,7 @@
     "name": "Alaskan Husky",
     "life_span": "10 - 13 years",
     "bred_for": "Sled pulling",
-    "breed_group": "Mixed",
+    "group_id": "3",
     "temperament": "Friendly, Energetic, Loyal, Gentle, Confident",
     "weight": {
       "imperial": "38 - 50 lbs",
@@ -66,7 +67,7 @@
     "id": 5,
     "name": "American Bulldog",
     "life_span": "10 - 12 years",
-    "breed_group": "Working",
+    "group_id": "3",
     "temperament": "Friendly, Assertive, Energetic, Loyal, Gentle, Confident, Dominant",
     "weight": {
       "imperial": "60 - 120 lbs",
@@ -82,7 +83,7 @@
     "name": "American Foxhound",
     "life_span": "8 - 15 years",
     "bred_for": "Fox hunting, scent hound",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Kind, Sweet-Tempered, Loyal, Independent, Intelligent, Loving",
     "weight": {
       "imperial": "65 - 75 lbs",
@@ -98,7 +99,7 @@
     "name": "American Pit Bull Terrier",
     "life_span": "10 - 15 years",
     "bred_for": "Fighting",
-    "breed_group": "Terrier",
+    "group_id": "2",
     "temperament": "Strong Willed, Stubborn, Friendly, Clownish, Affectionate, Loyal, Obedient, Intelligent, Courageous",
     "weight": {
       "imperial": "30 - 60 lbs",
@@ -114,7 +115,7 @@
     "name": "Australian Cattle Dog",
     "life_span": "12 - 14 years",
     "bred_for": "Cattle herding, herding trials",
-    "breed_group": "Herding",
+    "group_id": "7",
     "temperament": "Cautious, Energetic, Loyal, Obedient, Protective, Brave",
     "weight": {
       "imperial": "44 - 62 lbs",
@@ -130,7 +131,7 @@
     "name": "Australian Shepherd",
     "life_span": "12 - 16 years",
     "bred_for": "Sheep herding",
-    "breed_group": "Herding",
+    "group_id": "7",
     "temperament": "Good-natured, Affectionate, Intelligent, Active, Protective",
     "weight": {
       "imperial": "35 - 65 lbs",
@@ -146,7 +147,7 @@
     "name": "Basenji",
     "life_span": "10 - 12 years",
     "bred_for": "Hunting",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Affectionate, Energetic, Alert, Curious, Playful, Intelligent",
     "weight": {
       "imperial": "22 - 24 lbs",
@@ -162,7 +163,7 @@
     "name": "Basset Hound",
     "life_span": "12 - 15 years",
     "bred_for": "Hunting by scent",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Tenacious, Friendly, Affectionate, Devoted, Sweet-Tempered, Gentle",
     "weight": {
       "imperial": "50 - 65 lbs",
@@ -178,7 +179,7 @@
     "name": "Beagle",
     "life_span": "13 - 16 years",
     "bred_for": "Rabbit, hare hunting",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Amiable, Even Tempered, Excitable, Determined, Gentle, Intelligent",
     "weight": {
       "imperial": "20 - 35 lbs",
@@ -194,7 +195,7 @@
     "name": "Belgian Malinois",
     "life_span": "12 - 14 years",
     "bred_for": "Stock herding",
-    "breed_group": "Herding",
+    "group_id": "7",
     "temperament": "Watchful, Alert, Stubborn, Friendly, Confident, Hard-working, Active, Protective",
     "weight": {
       "imperial": "40 - 80 lbs",
@@ -210,7 +211,7 @@
     "name": "Bernese Mountain Dog",
     "life_span": "7 - 10 years",
     "bred_for": "Draft work",
-    "breed_group": "Working",
+    "group_id": "3",
     "temperament": "Affectionate, Loyal, Intelligent, Faithful",
     "weight": {
       "imperial": "65 - 120 lbs",
@@ -226,7 +227,7 @@
     "name": "Bichon Frise",
     "life_span": "15 years",
     "bred_for": "Companion",
-    "breed_group": "Non-Sporting",
+    "group_id": "5",
     "temperament": "Feisty, Affectionate, Cheerful, Playful, Gentle, Sensitive",
     "weight": {
       "imperial": "10 - 18 lbs",
@@ -242,7 +243,7 @@
     "name": "Black and Tan Coonhound",
     "life_span": "10 - 12 years",
     "bred_for": "Hunting raccoons, night hunting",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Easygoing, Gentle, Adaptable, Trusting, Even Tempered, Lovable",
     "weight": {
       "imperial": "65 - 100 lbs",
@@ -258,7 +259,7 @@
     "name": "Bloodhound",
     "life_span": "8 - 10 years",
     "bred_for": "Trailing",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Stubborn, Affectionate, Gentle, Even Tempered",
     "weight": {
       "imperial": "80 - 110 lbs",
@@ -274,7 +275,7 @@
     "name": "Bluetick Coonhound",
     "life_span": "12 - 14 years",
     "bred_for": "Hunting with a superior sense of smell.",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Friendly, Intelligent, Active",
     "weight": {
       "imperial": "45 - 80 lbs",
@@ -290,7 +291,7 @@
     "name": "Chesapeake Bay Retriever",
     "life_span": "10 - 13 years",
     "bred_for": "Water Retriever",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Affectionate, Intelligent, Quiet, Dominant, Happy, Protective",
     "weight": {
       "imperial": "55 - 80 lbs",
@@ -306,7 +307,7 @@
     "name": "French Bulldog",
     "life_span": "9 - 11 years",
     "bred_for": "Lapdog",
-    "breed_group": "Non-Sporting",
+    "group_id": "5",
     "temperament": "Playful, Affectionate, Keen, Sociable, Lively, Alert, Easygoing, Patient, Athletic, Bright",
     "weight": {
       "imperial": "28 lbs",
@@ -322,7 +323,7 @@
     "name": "Golden Retriever",
     "life_span": "10 - 12 years",
     "bred_for": "Retrieving",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Intelligent, Kind, Reliable, Friendly, Trustworthy, Confident",
     "weight": {
       "imperial": "55 - 75 lbs",
@@ -338,7 +339,7 @@
     "name": "Labrador Retriever",
     "life_span": "10 - 13 years",
     "bred_for": "Water retrieving",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Kind, Outgoing, Agile, Gentle, Intelligent, Trusting, Even Tempered",
     "weight": {
       "imperial": "55 - 80 lbs",
@@ -354,7 +355,7 @@
     "name": "Pug",
     "life_span": "12 - 14 years",
     "bred_for": "Lapdog",
-    "breed_group": "Toy",
+    "group_id": "4",
     "temperament": "Docile, Clever, Charming, Stubborn, Sociable, Playful, Quiet, Attentive",
     "weight": {
       "imperial": "14 - 18 lbs",
@@ -370,7 +371,7 @@
     "name": "Redbone Coonhound",
     "life_span": "10 - 12 years",
     "bred_for": "Hunting raccoon, deer, bear, and cougar.",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Affectionate, Energetic, Independent, Companionable, Familial, Unflappable",
     "weight": {
       "imperial": "45 - 80 lbs",
@@ -386,7 +387,7 @@
     "name": "Rhodesian Ridgeback",
     "life_span": "10 - 12 years",
     "bred_for": "Big game hunting, guarding",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Strong Willed, Mischievous, Loyal, Dignified, Sensitive, Intelligent",
     "weight": {
       "imperial": "75 - 80 lbs",
@@ -401,7 +402,7 @@
     "id": 25,
     "name": "Treeing Walker Coonhound",
     "life_span": "10 - 13 years",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Clever, Affectionate, Confident, Intelligent, Loving, Trainable",
     "weight": {
       "imperial": "45 - 80 lbs",
@@ -417,7 +418,7 @@
     "name": "Vizsla",
     "life_span": "10 - 14 years",
     "bred_for": "Pointing and trailing",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Affectionate, Energetic, Loyal, Gentle, Quiet",
     "weight": {
       "imperial": "50 - 65 lbs",
@@ -433,7 +434,7 @@
     "name": "Weimaraner",
     "life_span": "12 - 15 years",
     "bred_for": "Large game trailing and versatile gundog",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Steady, Aloof, Stubborn, Energetic, Alert, Intelligent, Powerful, Fast",
     "weight": {
       "imperial": "55 - 90 lbs",
@@ -449,7 +450,7 @@
     "name": "Welsh Springer Spaniel",
     "life_span": "12 - 15 years",
     "bred_for": "Flushing and retrieving birds",
-    "breed_group": "Sporting",
+    "group_id": "6",
     "temperament": "Stubborn, Friendly, Affectionate, Loyal, Playful, Active",
     "weight": {
       "imperial": "35 - 55 lbs",
@@ -464,7 +465,7 @@
     "id": 29,
     "name": "Welsh Terrier",
     "life_span": "10 - 14 years",
-    "breed_group": "Terrier",
+    "group_id": "2",
     "temperament": "Friendly, Spirited, Alert, Intelligent",
     "weight": {
       "imperial": "20 - 22 lbs",
@@ -480,7 +481,7 @@
     "name": "Whippet",
     "life_span": "12 - 15 years",
     "bred_for": "Coursing, racing",
-    "breed_group": "Hound",
+    "group_id": "1",
     "temperament": "Friendly, Affectionate, Lively, Gentle, Intelligent, Quiet",
     "weight": {
       "imperial": "25 - 35 lbs",
@@ -492,3 +493,44 @@
     }
   }
 ]
+
+const groupData = [
+  {
+    "name": "Hound",
+    "description": "developed to hunt",
+    "breedCount": 51
+  },
+  {
+    "name": "Terrier",
+    "description": "rocky terrain",
+    "breedCount": 30
+  },
+  {
+    "name": "Working",
+    "description": "service dogs and hunters",
+    "breedCount": 30
+  },
+  {
+    "name": "Toy",
+    "description": "companions",
+    "breedCount": 21
+  },
+  {
+    "name": "Non-sporting",
+    "Description": "literally every breed that is left",
+    "breedCount": 19
+  },
+  {
+    "name": "Sporting",
+    "Description": "The invention of the gun",
+    "breedCount": 43
+  },
+  {
+    "name": "Herding",
+    "Description": "Herding",
+    "breedCount": 55
+  }
+]
+
+module.exports.breedData = breedData;
+module.exports.groupData = groupData;
