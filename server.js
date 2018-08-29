@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const environment = process.env.NODE_ENV || 'development';
 
 const app = express();
 
