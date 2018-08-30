@@ -5,21 +5,21 @@ const environment = process.env.NODE_ENV || 'development';
 
 const app = express();
 
-const checkAuth = (request, response, next) => {
-  const token = request.body || request.param('token') || request.headers([authorization])
+// const checkAuth = (request, response, next) => {
+//   const token = request.body || request.param('token') || request.headers([authorization])
 
-  if(token) {
-    jwt.verify(token, app.get('secretKey'), ((error, decoded) => {
-      if (error) {
-        return reponse.status(403).json({error: 'Invalid token'})
-      } 
-      request.decoded = decoded;
-      next();
-    });
-  } else {
-    return response.status(403).json({error: 'You must be authorized to view this endpoint'})
-  }
-};
+//   if(token) {
+//     jwt.verify(token, app.get('secretKey'), ((error, decoded) => {
+//       if (error) {
+//         return reponse.status(403).json({error: 'Invalid token'})
+      
+//       request.decoded = decoded;
+//       next();
+//     } else {
+//       return response.status(403).json({error: 'You must be authorized to view this endpoint'})
+//     }
+//     })
+//     )};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -182,3 +182,5 @@ app.delete('/api/v1/breed/:id', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}`)
 });
+
+module.exports = app;
