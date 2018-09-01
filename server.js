@@ -169,17 +169,42 @@ app.delete('/api/v1/breed/:id', (request, response) => {
     })
 });
 
-// app.patch('/api/v1/breeds/:id', (request, response) => {
-//   const breedUpdate = request.body;
-//   const { id } = request.params;
-//   const breed = database('dog_breeds').where('id', id).select()
+app.patch('/api/v1/groups/:id', (request, response) => {
+  const groupUpdate = request.body;
+  const { id } = request.params;
 
-//   if (!index) { return response.status(404); }
+  console.log(groupUpdate, id)
+  if (groupUpdate.group_name || groupUpdate.breed_count || groupUpdate.breed_description) {
+    database('breed_groups').where('id', id).update(groupUpdate)
+      .then(response => {
+        response.status(200).json(groupUpdate);
+      })
+      .catch(error => {
+        return response.status(500).json({ error });
+      });
+  } else {
+    return response.status(422)
+      .send('You do not have the correct parameters to complete this request');
+  }
+});
 
-//   database('dog_breeds').where('id', id).select() = Object.assign(originalTrain, train);
-
-//   return response.status(200).json(app.locals.trains);
-// });
+app.patch('/api/v1/breeds/:id', (request, response) => {
+  const breedUpdate = request.body;
+  const id = parseInt(request.params.id);
+  console.log(breedUpdate, id)
+  if (breedUpdate.breed_name || breedUpdate.life_span || breedUpdate.bred_for || breedUpdate.temperament) {
+  database('dog_breeds').where('id', id).update(breedUpdate)
+    .then(response => {
+      return response.status(200).json({breedUpdate});
+    })
+    .catch(error => {
+      return response.status(500).json({error});
+    });
+  } else {
+    return response.status(422)
+      .send('You do not have the correct parameters to complete this request');
+  }
+});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}`)
