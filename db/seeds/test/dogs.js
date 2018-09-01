@@ -30,7 +30,6 @@ const createGroup = (knex, group) => {
 };
 
 const createBreed = (knex, breed) => {
-  console.log('seed the dogs plz')
   return knex('dog_breeds').insert(breed);
 };
 
@@ -43,7 +42,7 @@ exports.seed = function (knex, Promise) {
       groupData.forEach(group => {
         groupPromises.push(createGroup(knex, group));
       });
-      console.log('Hell yeah, things are happening. The seed has been spilled. ')
+      console.log('The seeds have been planted.')
       return Promise.all(groupPromises);
     })
     .catch(error => console.log(`Error seeding data: ${error}`))
