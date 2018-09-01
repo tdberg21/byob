@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 const app = express();
 
@@ -34,7 +36,7 @@ app.get('/', (request, response) => {
 app.locals.title = 'BYOB Bitches';
 
 app.get('/api/v1/groups', (request, response) => {
-  database('breed-groups').select()
+  database('breed_groups').select()
   .then((groups) => {
     response.status(200).json({ groups })
   })
