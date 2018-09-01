@@ -46,7 +46,7 @@ app.get('/api/v1/groups', (request, response) => {
 });
 
 app.get('/api/v1/breeds', (request, response) => {
-  database('breeds').select()
+  database('dog_breeds').select()
     .then((breeds) => {
       response.status(200).json({ breeds })
     })
@@ -58,7 +58,7 @@ app.get('/api/v1/breeds', (request, response) => {
 app.get('/api/v1/groups/:id', (request, response) => {
   const { id } = request.params;
 
-  database('groups').where('id', id).select()
+  database('breed_groups').where('id', id).select()
     .then(group => {
       if(group) {
         response.status(200).json({ group })
