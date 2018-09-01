@@ -60,7 +60,7 @@ app.get('/api/v1/groups/:id', (request, response) => {
 
   database('breed_groups').where('id', id).select()
     .then(group => {
-      if(group) {
+      if(group.length) {
         response.status(200).json({ group })
       } else {
         response.status(404).json({error: `Unable to find a breed group with the id: "${id}"`})
