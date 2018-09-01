@@ -71,7 +71,7 @@ app.get('/api/v1/groups/:id', (request, response) => {
     })
 });
 
-app.get('/api/v1/breed/:id', (request, response) => {
+app.get('/api/v1/breeds/:id', (request, response) => {
   const { id } = request.params;
 
   database('dog_breeds').where('id', id).select()
