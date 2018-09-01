@@ -45,6 +45,33 @@ describe('API Routes', function () {
     });
   });
 
+  describe('GET /api/v1/breeds', () => {
+    it('should return all the breeds', done => {
+      chai.request(server)
+        .get('/api/v1/breeds')
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          console.log(response.body[0]);
+          response.body.should.be.a('array');
+          response.body.should.have.length(217);
+          response.body[0].should.have.property('id');
+          response.body[0].should.have.property('breed_name');
+          response.body[0].should.have.property('life_span');
+          response.body[0].should.have.property('bred_for');
+          response.body[0].should.have.property('temperament');
+          response.body[0].should.have.property('weight');
+          response.body[0].should.have.property('height');
+          response.body[0].should.have.property('group_id');
+          response.body[0].id.should.equal(2);
+          response.body[0].breed_name.should.equal('Afghan Hound');
+          response.body[0].life_span.should.equal('10 - 13 years');
+          response.body[0].temperament.should.equal('Aloof, Clownish, Dignified, Independent, Happy');
+          response.body[0].group_id.should.equal(1);
+          done();
+        });
+    });
+  });
 
 
 
