@@ -11,18 +11,18 @@ chai.use(chaiHttp);
 
 describe('API Routes', function () {
 
-    // beforeEach( done => {
-    //   knex.migrate.rollback()
-    //     .then(() => {
-    //       knex.migrate.latest()
-    //         .then(() => {
-    //           return knex.seed.run()
-    //             .then(() => {
-    //               done();
-    //             });
-    //         });
-    //     });
-    // });
+    beforeEach( done => {
+      knex.migrate.rollback()
+        .then(() => {
+          knex.migrate.latest()
+            .then(() => {
+              return knex.seed.run()
+                .then(() => {
+                  done();
+                });
+            });
+        });
+    });
   
   describe('GET /api/v1/groups', () => {
     it('should return all the groups', done => {
@@ -63,10 +63,11 @@ describe('API Routes', function () {
           response.body[0].should.have.property('weight');
           response.body[0].should.have.property('height');
           response.body[0].should.have.property('group_id');
-          response.body[0].id.should.equal(2);
-          response.body[0].breed_name.should.equal('Afghan Hound');
-          response.body[0].life_span.should.equal('10 - 13 years');
-          response.body[0].temperament.should.equal('Aloof, Clownish, Dignified, Independent, Happy');
+          response.body[0].id.should.equal(1);
+          response.body[0].breed_name.should.equal('Affenpinscher');
+          response.body[0].life_span.should.equal('10 - 12 years');
+          response.body[0].bred_for.should.equal('Small rodent hunting, lapdog');
+          response.body[0].temperament.should.equal('Stubborn, Curious, Playful, Adventurous, Active, Fun-loving');
           response.body[0].group_id.should.equal(1);
           done();
         });
