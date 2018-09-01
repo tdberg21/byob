@@ -48,7 +48,7 @@ app.get('/api/v1/groups', (request, response) => {
 app.get('/api/v1/breeds', (request, response) => {
   database('dog_breeds').select()
     .then((breeds) => {
-      response.status(200).json({ breeds })
+      response.status(200).json(breeds)
     })
     .catch((error) => {
       response.status(500).json({ error })
