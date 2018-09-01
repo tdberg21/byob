@@ -52,7 +52,6 @@ describe('API Routes', function () {
         .end((error, response) => {
           response.should.have.status(200);
           response.should.be.json;
-          console.log(response.body[0]);
           response.body.should.be.a('array');
           response.body.should.have.length(217);
           response.body[0].should.have.property('id');
@@ -74,6 +73,42 @@ describe('API Routes', function () {
     });
   });
 
+  describe('GET /api/v1/groups/:id', () => {
+    it('should return a specific group', done => {
+      chai.request(server)
+        .get('/api/v1/groups/1')
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.should.have.property('group');
+          response.body.group.should.be.a('array');
+          response.body.group[0].should.be.a('object');
+          response.body.group[0].should.have.property('id');
+          response.body.group[0].should.have.property('group_name');
+          response.body.group[0].should.have.property('breed_count')
+          response.body.group[0].should.have.property('breed_description');
+          response.body.group[0].id.should.equal(1);
+          response.body.group[0].group_name.should.equal('Hound');
+          response.body.group[0].breed_count.should.equal('51');
+          done();
+        });
+    });
+
+    it('should not return a group if it doesnt exist', done => {
+      chai.request(server)
+        .get('/api/v1/groups/236')
+        .end((error, response) => {
+          console.log(response.body)
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.should.have.property('error');
+          response.body.error.should.equal('Unable to find a breed group with the id: "236"')
+          done();
+        })
+    })
+  });
 
 
 });
