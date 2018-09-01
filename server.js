@@ -38,7 +38,7 @@ app.locals.title = 'BYOB Bitches';
 app.get('/api/v1/groups', (request, response) => {
   database('breed_groups').select()
   .then((groups) => {
-    response.status(200).json({ groups })
+    response.status(200).json(groups)
   })
   .catch((error) => {
     response.status(500).json({ error })
