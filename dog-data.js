@@ -492,7 +492,7 @@ const breedData = [
       "metric": "46 - 56 cm at the withers"
     }
   }
-]
+];
 
 const groupData = [
   {
@@ -537,7 +537,7 @@ const groupData = [
     "breed_description": "Herding is a natural instinct in dogs that is seen in the wild. Humans have used that instinct to their advantage on farms and ranches with herding dogs who have the sole purpose of gathering and moving livestock from one place to another.",
     "breedCount": 55
   }
-]
+];
 
 module.exports.breedData = breedData;
 module.exports.groupData = groupData;
