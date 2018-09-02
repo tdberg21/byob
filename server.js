@@ -2,24 +2,26 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
 
 const app = express();
 
-const checkAuth = (request, response, next) => {
-  const token = request.body || request.param('token') || request.headers([authorization])
+// const checkAuth = (request, response, next) => {
+//   const token = request.body || request.param('token') || request.headers([authorization])
 
-  if(token) {
-    jwt.verify(token, app.get('secretKey'), ((error, decoded) => {
-      if (error) {
-        return reponse.status(403).json({error: 'Invalid token'})
-      } 
-      request.decoded = decoded;
-      next();
-    });
-  } else {
-    return response.status(403).json({error: 'You must be authorized to view this endpoint'})
-  }
-};
+//   if(token) {
+//     jwt.verify(token, app.get('secretKey'), ((error, decoded) => {
+//       if (error) {
+//         return reponse.status(403).json({error: 'Invalid token'})
+      
+//       request.decoded = decoded;
+//       next();
+//     } else {
+//       return response.status(403).json({error: 'You must be authorized to view this endpoint'})
+//     }
+//     })
+//     )};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,9 +36,9 @@ app.get('/', (request, response) => {
 app.locals.title = 'BYOB Bitches';
 
 app.get('/api/v1/groups', (request, response) => {
-  database('breed-groups').select()
+  database('breed_groups').select()
   .then((groups) => {
-    response.status(200).json({ groups })
+    response.status(200).json(groups)
   })
   .catch((error) => {
     response.status(500).json({ error })
@@ -44,9 +46,9 @@ app.get('/api/v1/groups', (request, response) => {
 });
 
 app.get('/api/v1/breeds', (request, response) => {
-  database('breeds').select()
+  database('dog_breeds').select()
     .then((breeds) => {
-      response.status(200).json({ breeds })
+      response.status(200).json(breeds)
     })
     .catch((error) => {
       response.status(500).json({ error })
@@ -56,9 +58,9 @@ app.get('/api/v1/breeds', (request, response) => {
 app.get('/api/v1/groups/:id', (request, response) => {
   const { id } = request.params;
 
-  database('groups').where('id', id).select()
+  database('breed_groups').where('id', id).select()
     .then(group => {
-      if(group) {
+      if(group.length) {
         response.status(200).json({ group })
       } else {
         response.status(404).json({error: `Unable to find a breed group with the id: "${id}"`})
@@ -69,7 +71,7 @@ app.get('/api/v1/groups/:id', (request, response) => {
     })
 });
 
-app.get('/api/v1/breed/:id', (request, response) => {
+app.get('/api/v1/breeds/:id', (request, response) => {
   const { id } = request.params;
 
   database('dog_breeds').where('id', id).select()
@@ -167,18 +169,45 @@ app.delete('/api/v1/breed/:id', (request, response) => {
     })
 });
 
-// app.patch('/api/v1/breeds/:id', (request, response) => {
-//   const breedUpdate = request.body;
-//   const { id } = request.params;
-//   const breed = database('dog_breeds').where('id', id).select()
+app.patch('/api/v1/groups/:id', (request, response) => {
+  const groupUpdate = request.body;
+  const { id } = request.params;
 
-//   if (!index) { return response.status(404); }
+  console.log(groupUpdate, id)
+  if (groupUpdate.group_name || groupUpdate.breed_count || groupUpdate.breed_description) {
+    database('breed_groups').where('id', id).update(groupUpdate)
+      .then(response => {
+        response.status(200).json(groupUpdate);
+      })
+      .catch(error => {
+        return response.status(500).json({ error });
+      });
+  } else {
+    return response.status(422)
+      .send('You do not have the correct parameters to complete this request');
+  }
+});
 
-//   database('dog_breeds').where('id', id).select() = Object.assign(originalTrain, train);
-
-//   return response.status(200).json(app.locals.trains);
-// });
+app.patch('/api/v1/breeds/:id', (request, response) => {
+  const breedUpdate = request.body;
+  const id = parseInt(request.params.id);
+  console.log(breedUpdate, id)
+  if (breedUpdate.breed_name || breedUpdate.life_span || breedUpdate.bred_for || breedUpdate.temperament) {
+  database('dog_breeds').where('id', id).update(breedUpdate)
+    .then(response => {
+      return response.status(200).json({breedUpdate});
+    })
+    .catch(error => {
+      return response.status(500).json({error});
+    });
+  } else {
+    return response.status(422)
+      .send('You do not have the correct parameters to complete this request');
+  }
+});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}`)
 });
+
+module.exports = app;
