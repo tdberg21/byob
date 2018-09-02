@@ -4,13 +4,12 @@ const jwt = require('jsonwebtoken');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
-
 const app = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', process.env.PORT || 3000);
 app.set('secretKey', process.env.SECRET || 'jeremiahwasabullfrog');
-
 
 const checkAuth = (request, response, next) => {
   const token = request.body.token || request.param('token') || request.headers['authorization'];
@@ -176,7 +175,6 @@ app.patch('/api/v1/groups/:id', checkAuth, (request, response) => {
   const groupUpdate = request.body;
   const { id } = request.params;
 
-  console.log(groupUpdate, id)
   if (groupUpdate.group_name || groupUpdate.breed_count || groupUpdate.breed_description) {
     database('breed_groups').where('id', id).update(groupUpdate)
       .then(response => {
