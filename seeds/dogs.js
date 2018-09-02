@@ -1,4 +1,6 @@
-const { breedData, groupData } = require('../dog-data.js')
+/*eslint-disable no-console*/
+
+const { breedData, groupData } = require('../dog-data.js');
 
 const createGroup = (knex, group) => {
   return knex('breed_groups').insert({
@@ -11,25 +13,23 @@ const createGroup = (knex, group) => {
       let breedPromises = [];
 
       breedData.forEach(breed => {
-            breedPromises.push(
-              createBreed(knex, {
-                breed_name: breed.name,
-                life_span: breed.life_span,
-                bred_for: breed.bred_for,
-                temperament: breed.temperament,
-                weight: breed.weight,
-                height: breed.height,
-                group_id: groupId[0]
-              })
-            )
-        // }
+        breedPromises.push(
+          createBreed(knex, {
+            breed_name: breed.name,
+            life_span: breed.life_span,
+            bred_for: breed.bred_for,
+            temperament: breed.temperament,
+            weight: breed.weight,
+            height: breed.height,
+            group_id: groupId[0]
+          })
+        );
       });
       return Promise.all(breedPromises);
-    })
+    });
 };
 
 const createBreed = (knex, breed) => {
-  console.log('seed the dogs plz')
   return knex('dog_breeds').insert(breed);
 };
 
@@ -42,8 +42,8 @@ exports.seed = function(knex, Promise) {
       groupData.forEach(group => {
         groupPromises.push(createGroup(knex, group));
       });
-      console.log('Hell yeah, things are happening. The seed has been spilled. ')
+      console.log('The seeds have been planted.');
       return Promise.all(groupPromises);
     })
-    .catch(error => console.log(`Error seeding data: ${error}`))
+    .catch(error => console.log(`Error seeding data: ${error}`));
 };
