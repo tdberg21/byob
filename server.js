@@ -8,8 +8,10 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 const app = express();
 
+app.use(express.static('public'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true}));
+
 app.set('port', process.env.PORT || 3000);
 app.set('secretKey', process.env.SECRET || 'jeremiahwasabullfrog');
 
@@ -34,11 +36,11 @@ const checkAuth = (request, response, next) => {
   }
 };
 
-app.get('/', (request, response) => {
-  const token = jwt.sign({});
-});
+app.locals.title = 'THEY\'RE GOOD DOGS BRENT';
 
-app.locals.title = 'BYOB Bitches';
+app.get('/', (request, response) => {
+  response.send(`${app.locals.title} has been complied successfully`)
+});
 
 app.get('/api/v1/groups', (request, response) => {
   database('breed_groups').select()
@@ -54,6 +56,16 @@ app.get('/api/v1/breeds', (request, response) => {
   database('dog_breeds').select()
     .then((breeds) => {
       response.status(200).json(breeds);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
+app.get('/api/v1/group_name', (request, response) => {
+  database('breed_groups').where('group_name', request.query.group_name).select()
+    .then((groups) => {
+      response.status(200).json(groups);
     })
     .catch((error) => {
       response.status(500).json({ error });
@@ -210,8 +222,9 @@ app.patch('/api/v1/breeds/:id', checkAuth, (request, response) => {
 });
 
 app.post('/api/v1/authenticate', (request, response) => {
+  console.log(request.body)
   const {email, appName} = request.body;
-  
+
   if (email && appName) {
     if (email.includes('turing.io')) {
       var token = jwt.sign({ email, appName, admin: true }, app.get('secretKey'), { expiresIn: '48h' });
@@ -220,7 +233,7 @@ app.post('/api/v1/authenticate', (request, response) => {
     }
     return response.status(201).json({ message: 'Authentication successful. This token will expire in 48 hours', token });
   } else {
-    return response.status(404).json('You do not have the correct parameters for authorization');
+    return response.status(403).json('You do not have the correct parameters for authorization');
   }
 });
 
