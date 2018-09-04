@@ -6,26 +6,40 @@ var chaiHttp = require('chai-http');
 var server = require('../server.js');
 var knex = require('../db/knex');
 
-
 chai.use(chaiHttp);
 
-describe('API Routes', function () {
-
-    beforeEach( done => {
-      knex.migrate.rollback()
-        .then(() => {
-          knex.migrate.latest()
-            .then(() => {
-              return knex.seed.run()
-                .then(() => {
-                  done();
-                });
-            });
-        });
+describe('Client Routes', () => {
+  it('should return a home page', (done) => {
+    chai.request(server)
+    .get('/')
+    .end((error, response) => {
+      response.should.have.status(200);
+      response.should.be.html;
+      done();
     });
-  
+  });
+
+  it('should return a 404 for a route that does not exist', (done) => {
+    chai.request(server)
+    .get('/non-existent-route')
+    .end((error, response) => {
+      response.should.have.status(404);
+      done();
+    });
+  });
+});
+
+describe('API Routes', () => {
+
+    beforeEach(done => {
+      knex.migrate.rollback()
+        .then(() => knex.migrate.latest())
+        .then(() => knex.seed.run())
+        .then(() => done())
+    })
+
   describe('GET /api/v1/groups', () => {
-    it('should return all the groups', done => {
+    it('should return all the groups', (done) => {
       chai.request(server)
         .get('/api/v1/groups')
         .end((error, response) => {
@@ -45,8 +59,45 @@ describe('API Routes', function () {
     });
   });
 
+  describe('GET /api/v1/groups/:id', () => {
+    it('should return a specific group', (done) => {
+      chai.request(server)
+        .get('/api/v1/groups/1')
+        .end((error, response) => {
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.should.have.property('group');
+          response.body.group.should.be.a('array');
+          response.body.group[0].should.be.a('object');
+          response.body.group[0].should.have.property('id');
+          response.body.group[0].should.have.property('group_name');
+          response.body.group[0].should.have.property('breed_count')
+          response.body.group[0].should.have.property('breed_description');
+          response.body.group[0].id.should.equal(1);
+          response.body.group[0].group_name.should.equal('Hound');
+          response.body.group[0].breed_count.should.equal('51');
+          done();
+        });
+    });
+
+    it('should not return a 404 if a group does not exist', (done) => {
+      chai.request(server)
+        .get('/api/v1/groups/236')
+        .end((error, response) => {
+          console.log(response.body)
+          response.should.have.status(404);
+          response.should.be.json;
+          response.body.should.be.a('object');
+          response.body.should.have.property('error');
+          response.body.error.should.equal('Unable to find a breed group with the id: "236"')
+          done();
+        });
+    });
+  });
+
   describe('GET /api/v1/breeds', () => {
-    it('should return all the breeds', done => {
+    it('should return all the breeds', (done) => {
       chai.request(server)
         .get('/api/v1/breeds')
         .end((error, response) => {
@@ -73,42 +124,48 @@ describe('API Routes', function () {
     });
   });
 
-  describe('GET /api/v1/groups/:id', () => {
-    it('should return a specific group', done => {
+  describe('GET /api/v1/breeds/:id', () => {
+    it('should return a specific group', (done) => {
       chai.request(server)
-        .get('/api/v1/groups/1')
+        .get('/api/v1/breeds/1')
         .end((error, response) => {
           response.should.have.status(200);
           response.should.be.json;
           response.body.should.be.a('object');
-          response.body.should.have.property('group');
-          response.body.group.should.be.a('array');
-          response.body.group[0].should.be.a('object');
-          response.body.group[0].should.have.property('id');
-          response.body.group[0].should.have.property('group_name');
-          response.body.group[0].should.have.property('breed_count')
-          response.body.group[0].should.have.property('breed_description');
-          response.body.group[0].id.should.equal(1);
-          response.body.group[0].group_name.should.equal('Hound');
-          response.body.group[0].breed_count.should.equal('51');
+          response.body.breed[0].should.have.property('id');
+          response.body.breed[0].should.have.property('breed_name');
+          response.body.breed[0].should.have.property('life_span');
+          response.body.breed[0].should.have.property('bred_for');
+          response.body.breed[0].should.have.property('temperament');
+          response.body.breed[0].should.have.property('weight');
+          response.body.breed[0].should.have.property('height');
+          response.body.breed[0].should.have.property('group_id');
+          response.body.breed[0].id.should.equal(1);
+          response.body.breed[0].breed_name.should.equal('Affenpinscher');
+          response.body.breed[0].life_span.should.equal('10 - 12 years');
+          response.body.breed[0].bred_for.should.equal('Small rodent hunting, lapdog');
+          response.body.breed[0].temperament.should.equal('Stubborn, Curious, Playful, Adventurous, Active, Fun-loving');
+          response.body.breed[0].group_id.should.equal(1);
           done();
         });
     });
 
-    it('should not return a group if it doesnt exist', done => {
+    it('should not return a 404 if a breed does not exist', (done) => {
       chai.request(server)
-        .get('/api/v1/groups/236')
+        .get('/api/v1/breeds/250')
         .end((error, response) => {
           console.log(response.body)
           response.should.have.status(404);
           response.should.be.json;
           response.body.should.be.a('object');
           response.body.should.have.property('error');
-          response.body.error.should.equal('Unable to find a breed group with the id: "236"')
+          response.body.error.should.equal('Unable to find a breed with the id: "250"')
           done();
-        })
-    })
+        });
+    });
   });
+
+
 
 
 });
