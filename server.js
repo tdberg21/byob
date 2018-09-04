@@ -65,7 +65,11 @@ app.get('/api/v1/breeds', (request, response) => {
 app.get('/api/v1/group_name', (request, response) => {
   database('breed_groups').where('group_name', request.query.group_name).select()
     .then((groups) => {
-      response.status(200).json(groups);
+      if (groups.length) {
+        response.status(200).json(groups);
+      } else {
+        response.status(404).json({error: `Unable to find a breed group with the name: "${request.params.group_name}"`});
+      }
     })
     .catch((error) => {
       response.status(500).json({ error });
