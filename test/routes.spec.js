@@ -68,7 +68,7 @@ describe('API Routes', () => {
 
   describe('GET /api/v1/groups/:id', () => {
 
-    it('should return a specific group', (done) => {
+    it.skip('should return a specific group', (done) => {
       chai.request(server)
         .get('/api/v1/groups/1')
         .end((error, response) => {
