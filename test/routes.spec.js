@@ -106,7 +106,7 @@ describe('API Routes', () => {
 
   describe('GET /api/v1/breeds', () => {
 
-    it('should return all the breeds', (done) => {
+    it.skip('should return all the breeds', (done) => {
       chai.request(server)
         .get('/api/v1/breeds')
         .end((error, response) => {
@@ -135,7 +135,7 @@ describe('API Routes', () => {
 
   describe('GET /api/v1/breeds/:id', () => {
 
-    it('should return a specific breed', (done) => {
+    it.skip('should return a specific breed', (done) => {
       chai.request(server)
         .get('/api/v1/breeds/1')
         .end((error, response) => {
@@ -374,6 +374,5 @@ describe('API Routes', () => {
       });
     });
   });
-
-
+  
 });
