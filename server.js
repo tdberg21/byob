@@ -39,7 +39,7 @@ const checkAuth = (request, response, next) => {
 app.locals.title = 'THEY\'RE GOOD DOGS BRENT';
 
 app.get('/', (request, response) => {
-  response.send(`${app.locals.title} has been complied successfully`)
+  response.send(`${app.locals.title} has been complied successfully`);
 });
 
 app.get('/api/v1/groups', (request, response) => {
@@ -222,7 +222,6 @@ app.patch('/api/v1/breeds/:id', checkAuth, (request, response) => {
 });
 
 app.post('/api/v1/authenticate', (request, response) => {
-  console.log(request.body)
   const {email, appName} = request.body;
 
   if (email && appName) {
