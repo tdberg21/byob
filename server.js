@@ -12,8 +12,10 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+require('dotenv').config();
+
 app.set('port', process.env.PORT || 3000);
-app.set('secretKey', process.env.SECRET || 'jeremiahwasabullfrog');
+app.set('secretKey', process.env.secretKey || 'jeremiahwasabullfrog');
 
 const checkAuth = (request, response, next) => {
   const token = request.body.token || request.param('token') || request.headers['authorization'];
@@ -39,7 +41,7 @@ const checkAuth = (request, response, next) => {
 app.locals.title = 'THEY\'RE GOOD DOGS BRENT';
 
 app.get('/', (request, response) => {
-  response.send(`${app.locals.title} has been complied successfully`)
+  response.send(`${app.locals.title} has been complied successfully`);
 });
 
 app.get('/api/v1/groups', (request, response) => {
@@ -127,7 +129,7 @@ app.post('/api/v1/groups', checkAuth, (request, response) => {
   }
 });
 
-app.post('/api/v1/breed', checkAuth, (request, response) => {
+app.post('/api/v1/breeds', checkAuth, (request, response) => {
   const breed = request.body;
   
   for (let requiredParams of ['breed_name', 'life_span', 'bred_for', 'temperament', 'weight', 'height', 'lovable', 'group_id']) {
@@ -146,12 +148,11 @@ app.post('/api/v1/breed', checkAuth, (request, response) => {
   }
 });
 
-app.delete('/api/v1/groups/:id', checkAuth, (request, response) => {
+app.delete('/api/v1/groups/:id', (request, response) => {
   const { id } = request.params;
-  
   database('breed_groups').where('id', id).select()
     .then(group => {
-      if (group) {
+      if (group.length) {
         database('breed_groups').where('id', id).del()
           .then(group => {
             response.status(204).send(`Resource: "${group}", id: "${id}" successfully deleted`);
@@ -168,12 +169,12 @@ app.delete('/api/v1/groups/:id', checkAuth, (request, response) => {
     });
 });
 
-app.delete('/api/v1/breed/:id', checkAuth, (request, response) => {
+app.delete('/api/v1/breeds/:id', (request, response) => {
   const { id } = request.params;
   
   database('dog_breeds').where('id', id).select()
     .then(breed => {
-      if (breed) {
+      if (breed.length) {
         database('dog_breeds').where('id', id).del()
           .then(breed => {
             response.status(204).send(`Resource: "${breed}", id: "${id}" successfully deleted`);
@@ -193,7 +194,6 @@ app.delete('/api/v1/breed/:id', checkAuth, (request, response) => {
 app.patch('/api/v1/groups/:id', checkAuth, (request, response) => {
   const groupUpdate = request.body;
   const { id } = request.params;
-  
   if (groupUpdate.group_name || groupUpdate.breed_count || groupUpdate.breed_description) {
     database('breed_groups').where('id', id).update(groupUpdate)
       .then(response => {
@@ -211,6 +211,7 @@ app.patch('/api/v1/groups/:id', checkAuth, (request, response) => {
 app.patch('/api/v1/breeds/:id', checkAuth, (request, response) => {
   const breedUpdate = request.body;
   const id = parseInt(request.params.id);
+
   if (breedUpdate.breed_name || breedUpdate.life_span || breedUpdate.bred_for || breedUpdate.temperament) {
     database('dog_breeds').where('id', id).update(breedUpdate)
       .then(response => {
@@ -226,7 +227,6 @@ app.patch('/api/v1/breeds/:id', checkAuth, (request, response) => {
 });
 
 app.post('/api/v1/authenticate', (request, response) => {
-  console.log(request.body)
   const {email, appName} = request.body;
 
   if (email && appName) {
