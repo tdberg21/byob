@@ -93,7 +93,7 @@ app.get('/api/v1/breeds/:id', (request, response) => {
   
   database('dog_breeds').where('id', id).select()
     .then(breed => {
-      if (breed) {
+      if (breed.length) {
         response.status(200).json({ breed });
       } else {
         response.status(404).json({error: `Unable to find a breed with the id: "${id}"`});
