@@ -1,0 +1,28 @@
+body {
+	font-family: Open Sans
+}
+
+header,
+main {
+	display: flex;
+	justify-content: center;
+}
+
+input,
+button {
+	display: block;
+	width: 15rem;
+	margin: 1rem auto ;
+	padding: .5rem;
+}
+
+
+button {
+	background-color: #000;
+	color: #FFF;
+	width: 16rem;
+}
+
+.feedback {
+	overflow-wrap: break-word;
+}
